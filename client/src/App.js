@@ -20,34 +20,22 @@ const styles = thema => ({
   }
 })
 
-const customers = [
-  {
-    id: 1,
-    img: "https://placeimg.com/64/64/1",
-    name: "홍길동",
-    age: 23,
-    gender: "남자",
-    job: "대학생"
-  },
-  {
-    id: 2,
-    img: "https://placeimg.com/64/64/2",
-    name: "김철수",
-    age: 23,
-    gender: "남자",
-    job: "대학생"
-  },
-  {
-    id: 3,
-    img: "https://placeimg.com/64/64/3",
-    name: "김영희",
-    age: 23,
-    gender: "여자",
-    job: "대학생"
-  },
-]
-
 class App extends Component {
+  state = {
+    customers: ""
+  };
+
+  componentDidMount() {
+    this.callApi()
+      .then(customers => this.setState({customers}))
+      .catch(err => console.log(err));
+  }
+
+  callApi = async () => {
+    const response = await fetch("/api/customers");
+    const body = await response.json();
+    return body;
+  }
   render() {
     const { classes } = this.props;
     return (
@@ -64,7 +52,7 @@ class App extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {customers.map(customer => {
+            { this.state.customers ? this.state.customers.map(customer => {
               return (
                 <Customer key={customer.id}
                   id={customer.id}
@@ -75,7 +63,7 @@ class App extends Component {
                   job={customer.job}
                 />
               )
-            })}
+            }) : ""}
           </TableBody>
         </Table>
       </Paper>
