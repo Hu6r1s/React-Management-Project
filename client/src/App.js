@@ -67,7 +67,7 @@ class App extends Component {
               return (
                 <Customer key={customer.id}
                   id={customer.id}
-                  img={customer.img}
+                  img={customer.image}
                   name={customer.name}
                   age={customer.age}
                   gender={customer.gender}
