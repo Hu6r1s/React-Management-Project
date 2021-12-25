@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Customer from "./components/Customer";
+import CustomerAdd from "./components/CustomerAdd";
 import { Paper } from '@material-ui/core';
 import Table from "@material-ui/core/Table";
 import TableHead from '@material-ui/core/TableHead';
@@ -14,13 +15,13 @@ const styles = theme => ({
   root: {
     width: "100%",
     overflowX: "auto",
-    marginTop: theme.spacing.unit*3
+    marginTop: theme.spacing.unit * 3
   },
   table: {
     minWidth: 1080
   },
   progress: {
-    marginTop: theme.spacing.unit*2
+    marginTop: theme.spacing.unit * 2
   }
 })
 
@@ -33,7 +34,7 @@ class App extends Component {
   componentDidMount() {
     this.timer = setInterval(this.progress, 20);
     this.callApi()
-      .then(customers => this.setState({customers}))
+      .then(customers => this.setState({ customers }))
       .catch(err => console.log(err));
   }
 
@@ -45,45 +46,48 @@ class App extends Component {
 
   progress = () => {
     const { completed } = this.state;
-    this.setState({completed: completed >= 100 ? 0 : completed + 1});
+    this.setState({ completed: completed >= 100 ? 0 : completed + 1 });
   }
   render() {
     const { classes } = this.props;
     return (
-      <Paper className={classes.root}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>번호</TableCell>
-              <TableCell>이미지</TableCell>
-              <TableCell>이름</TableCell>
-              <TableCell>나이</TableCell>
-              <TableCell>성별</TableCell>
-              <TableCell>직업</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            { this.state.customers ? this.state.customers.map(customer => {
-              return (
-                <Customer key={customer.id}
-                  id={customer.id}
-                  img={customer.image}
-                  name={customer.name}
-                  age={customer.age}
-                  gender={customer.gender}
-                  job={customer.job}
-                />
-              )
-            }) : 
-            <TableRow>
-              <TableCell colSpan="6" align="center">
-                <CircularProgress className={classes.progress} variant='determinate' value={this.state.completed}></CircularProgress>
-              </TableCell>
-            </TableRow>
-            }
-          </TableBody>
-        </Table>
-      </Paper>
+      <div>
+        <Paper className={classes.root}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell>번호</TableCell>
+                <TableCell>이미지</TableCell>
+                <TableCell>이름</TableCell>
+                <TableCell>나이</TableCell>
+                <TableCell>성별</TableCell>
+                <TableCell>직업</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {this.state.customers ? this.state.customers.map(customer => {
+                return (
+                  <Customer key={customer.id}
+                    id={customer.id}
+                    img={customer.image}
+                    name={customer.name}
+                    age={customer.age}
+                    gender={customer.gender}
+                    job={customer.job}
+                  />
+                )
+              }) :
+                <TableRow>
+                  <TableCell colSpan="6" align="center">
+                    <CircularProgress className={classes.progress} variant='determinate' value={this.state.completed}></CircularProgress>
+                  </TableCell>
+                </TableRow>
+              }
+            </TableBody>
+          </Table>
+        </Paper>
+        <CustomerAdd />
+      </div>
     );
   }
 }
