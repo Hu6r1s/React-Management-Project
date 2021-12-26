@@ -19,6 +19,7 @@ class CustomerAdd extends Component {
         this.addCustomer()
             .then(res => {
                 console.log(res.data);
+                this.props.stateRefresh();
             });
         this.setState({
             file: null,
@@ -28,7 +29,6 @@ class CustomerAdd extends Component {
             job: "",
             fileName: ""
         });
-        window.location.reload();
     }
 
     fileHandler = (e) => {
